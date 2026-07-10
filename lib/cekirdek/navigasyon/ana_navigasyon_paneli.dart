@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pati_ailesi/ozellikler/aile/ekranlar/aile_sohbet_paneli.dart';
-import 'package:supabase_flutter/supabase_flutter.dart'; // Supabase eklendi
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../ozellikler/aile/ekranlar/aile_paneli.dart';
 import '../../ozellikler/kullanici/ekranlar/kullanici_profil_paneli.dart';
-import '../../ozellikler/aile/ekranlar/gunluk_ozet_paneli.dart'; // Import yolu güncellendi
+import '../../ozellikler/aile/ekranlar/gunluk_ozet_paneli.dart';
 
 class AnaNavigasyonPaneli extends StatefulWidget {
   const AnaNavigasyonPaneli({super.key});
@@ -17,12 +18,16 @@ class AnaNavigasyonPaneli extends StatefulWidget {
 class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
   int _seciliSayfaIndeksi = 0;
   final Color koyuMavi = const Color(0xFF0D47A1);
+  final Color fenerbahceSarisi = const Color(0xFFFFC107);
 
-  // Kullanıcının aile_id'sini saklayacağımız değişken
+  String? _gecerliKullaniciId;
   String? _kullaniciAileId;
   bool _yukleniyor = true;
+  bool _okunmamisMesajVar = false;
 
-  // YENİ: 4 Sekme olduğu için 4 adet Navigator Key oluşturuyoruz
+  StreamSubscription? _mesajAboneligi;
+  Timer? _debounceTimer; // Bildirim yanıp sönmesini engellemek için zamanlayıcı
+
   final List<GlobalKey<NavigatorState>> _navigatorAnahtarlari = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
@@ -36,10 +41,17 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
     _kullaniciBilgisiniGetir();
   }
 
-  // Kullanıcının aile_id değerini Supabase'den çekiyoruz
+  @override
+  void dispose() {
+    _mesajAboneligi?.cancel();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
   Future<void> _kullaniciBilgisiniGetir() async {
     final userId = Supabase.instance.client.auth.currentUser?.id;
     if (userId != null) {
+      _gecerliKullaniciId = userId;
       final veri = await Supabase.instance.client
           .from('kullanicilar')
           .select('aile_id')
@@ -51,11 +63,48 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
           _kullaniciAileId = veri?['aile_id'];
           _yukleniyor = false;
         });
+        if (_kullaniciAileId != null) {
+          _mesajDinleyiciyiBaslat();
+        }
       }
     }
   }
 
+  void _mesajDinleyiciyiBaslat() {
+    _mesajAboneligi = Supabase.instance.client
+        .from('aile_mesajlari')
+        .stream(primaryKey: ['id'])
+        .eq('aile_id', _kullaniciAileId!)
+        .listen((mesajlar) {
+
+      // 1. Sohbet ekranındaysan bildirimleri zaten gösterme
+      if (_seciliSayfaIndeksi == 1) {
+        setState(() => _okunmamisMesajVar = false);
+        return;
+      }
+
+      // 2. Kendi okumadığın mesajları bul
+      bool yeniOkunmamisVar = mesajlar.any((mesaj) {
+        final List okuyanlar = List.from(mesaj['okuyanlar'] ?? []);
+        return mesaj['gonderen_id'] != _gecerliKullaniciId && !okuyanlar.contains(_gecerliKullaniciId);
+      });
+
+      // 3. EĞER YENİ BİR MESAJ VARSA VE ZATEN BİLDİRİMİN VARSA, ONU SİLME!
+      // Sadece 'yeniOkunmamisVar' true ise ve daha önce false ise bildirimi yak.
+      if (yeniOkunmamisVar) {
+        setState(() => _okunmamisMesajVar = true);
+      }
+      // NOT: Burada 'else' koymuyoruz!
+      // Çünkü 'yeniOkunmamisVar' false olsa bile biz 'true'yu korumak istiyoruz
+      // (Ta ki kullanıcı sohbet ekranına girene kadar).
+    });
+  }
   void _sayfaDegistir(int indeks) {
+    // SOHBETE TIKLANDIĞI AN BİLDİRİMİ SIFIRLA
+    if (indeks == 1) {
+      setState(() => _okunmamisMesajVar = false);
+    }
+
     if (_seciliSayfaIndeksi == indeks) {
       _navigatorAnahtarlari[indeks].currentState?.popUntil((route) => route.isFirst);
     } else {
@@ -72,7 +121,6 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
 
   @override
   Widget build(BuildContext context) {
-    // Veriler yüklenirken bir yükleme ekranı gösteriyoruz
     if (_yukleniyor) {
       return Scaffold(body: Center(child: CircularProgressIndicator(color: koyuMavi)));
     }
@@ -95,9 +143,9 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
           index: _seciliSayfaIndeksi,
           children: [
             _sekmeOlustur(0, const AilePaneli()),
-            _sekmeOlustur(1, const AileSohbetPaneli()), // YENİ: Sohbet sekmesi eklendi
-            _sekmeOlustur(2, AileAkisPaneli(aileId: _kullaniciAileId ?? '')), // Geçmiş
-            _sekmeOlustur(3, const KullaniciProfilPaneli()), // Profil en sağa alındı
+            _sekmeOlustur(1, const AileSohbetPaneli()),
+            _sekmeOlustur(2, AileAkisPaneli(aileId: _kullaniciAileId ?? '')),
+            _sekmeOlustur(3, const KullaniciProfilPaneli()),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -109,11 +157,18 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
           showUnselectedLabels: true,
           elevation: 10,
           type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ailem'),
-            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Sohbet'), // YENİ: Sohbet İkonu
-            BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Geçmiş'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+          items: [
+            const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ailem'),
+            BottomNavigationBarItem(
+              icon: Badge(
+                isLabelVisible: _okunmamisMesajVar,
+                backgroundColor: fenerbahceSarisi,
+                child: const Icon(Icons.chat),
+              ),
+              label: 'Sohbet',
+            ),
+            const BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Geçmiş'),
+            const BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
           ],
         ),
       ),
