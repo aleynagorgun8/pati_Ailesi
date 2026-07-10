@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart'; // ⭐ BURASI EKLENDİ
+import 'package:intl/date_symbol_data_local.dart'; 
 import 'package:google_fonts/google_fonts.dart';
 
 class BeslenmeTakipPaneli extends StatefulWidget {
@@ -18,7 +18,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
     with SingleTickerProviderStateMixin {
   final _supabase = Supabase.instance.client;
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -27,7 +27,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
   final Color kartBeyazi = Colors.white;
   final Color textGri = const Color(0xFF546E7A);
 
-  // Varsayılan seçeneklerimiz
+  
   final List<String> _varsayilanMamalar = ['Kuru Mama', 'Yaş Mama', 'Ödül Maması'];
   final List<String> _olcuBirimleri = [
     'Gram (gr)',
@@ -50,7 +50,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
     super.initState();
     _gecerliKullaniciId = _supabase.auth.currentUser?.id ?? '';
 
-    // ⭐ TÜRKÇE LOCALE VERİLERİNİ BAŞLAT
+    
     initializeDateFormatting('tr_TR', null);
 
     _animasyonKontrol = AnimationController(
@@ -183,7 +183,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Başlık çubuğu
+                    
                     Container(
                       width: 60,
                       height: 4,
@@ -214,7 +214,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                     ),
                     const SizedBox(height: 16),
 
-                    // Mama Seçimi
+                    
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.grey.shade50,
@@ -258,7 +258,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                     ),
                     const SizedBox(height: 16),
 
-                    // Farklı Ekle...
+                    
                     if (farkliMamaMi) ...[
                       Container(
                         decoration: BoxDecoration(
@@ -282,7 +282,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                       const SizedBox(height: 16),
                     ],
 
-                    // Miktar ve Birim
+                    
                     Row(
                       children: [
                         Expanded(
@@ -345,7 +345,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                     ),
                     const SizedBox(height: 24),
 
-                    // Kaydet Butonu
+                    
                     ElevatedButton(
                       onPressed: () async {
                         if (miktarKontrolcusu.text.trim().isEmpty) {
@@ -533,12 +533,12 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
     }
   }
 
-  // ⭐ TARİH FORMATLAMA İÇİN YARDIMCI FONKSİYON
+  
   String _tarihFormatla(DateTime tarih) {
     try {
       return DateFormat('d MMM', 'tr_TR').format(tarih);
     } catch (e) {
-      // Hata durumunda basit format dene
+      
       return DateFormat('d MMM').format(tarih);
     }
   }
@@ -617,7 +617,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                 kayit['gerceklesme_zamani']).toLocal();
             String saatMetni =
                 "${tarih.hour.toString().padLeft(2, '0')}:${tarih.minute.toString().padLeft(2, '0')}";
-            // ⭐ YARDIMCI FONKSİYON KULLANILDI
+            
             String gunMetni = _tarihFormatla(tarih);
 
             return Container(
@@ -642,7 +642,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                     padding: const EdgeInsets.all(14),
                     child: Row(
                       children: [
-                        // İkon
+                        
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -656,7 +656,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                           ),
                         ),
                         const SizedBox(width: 14),
-                        // İçerik
+                        
                         Expanded(
                           child: Column(
                             crossAxisAlignment:
@@ -715,7 +715,7 @@ class _BeslenmeTakipPaneliDurumu extends State<BeslenmeTakipPaneli>
                             ],
                           ),
                         ),
-                        // Menü Butonu
+                        
                         PopupMenuButton<String>(
                           onSelected: (deger) {
                             if (deger == 'duzenle') {

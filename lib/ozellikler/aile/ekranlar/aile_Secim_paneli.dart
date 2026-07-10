@@ -19,7 +19,7 @@ class _AileSecimPaneliState extends State<AileSecimPaneli>
   final TextEditingController _aileAdiKontrolcusu = TextEditingController();
   final TextEditingController _davetKoduKontrolcusu = TextEditingController();
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -311,7 +311,7 @@ class _AileSecimPaneliState extends State<AileSecimPaneli>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Logo ve Başlık
+              
               Column(
                 children: [
                   Container(
@@ -357,7 +357,7 @@ class _AileSecimPaneliState extends State<AileSecimPaneli>
               ),
               const SizedBox(height: 32),
 
-              // Yeni Aile Oluştur Kartı
+              
               SlideTransition(
                 position: _kaymaAnimasyon1,
                 child: Container(
@@ -473,7 +473,7 @@ class _AileSecimPaneliState extends State<AileSecimPaneli>
               ),
               const SizedBox(height: 16),
 
-              // Mevcut Aileye Katıl Kartı
+              
               SlideTransition(
                 position: _kaymaAnimasyon2,
                 child: Container(
@@ -602,7 +602,7 @@ class _AileSecimPaneliState extends State<AileSecimPaneli>
               ),
               const SizedBox(height: 12),
 
-              // Alt Bilgi
+              
               Center(
                 child: Text(
                   '💡 Pati Ailenle birlikte tüm takipleri yapabilirsin',

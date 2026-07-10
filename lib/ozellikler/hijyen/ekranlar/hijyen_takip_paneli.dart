@@ -16,7 +16,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
     with SingleTickerProviderStateMixin {
   final _supabase = Supabase.instance.client;
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -25,7 +25,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
   final Color kartBeyazi = Colors.white;
   final Color textGri = const Color(0xFF546E7A);
 
-  // Genişletilmiş hijyen işlemleri listesi
+  
   final List<String> _hijyenIslemleri = [
     'Kum Temizleme',
     'Tırnak Kesme',
@@ -184,7 +184,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Başlık çubuğu
+                  
                   Container(
                     width: 60,
                     height: 4,
@@ -215,7 +215,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                   ),
                   const SizedBox(height: 16),
 
-                  // İşlem Seçimi
+                  
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
@@ -264,7 +264,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                   ),
                   const SizedBox(height: 24),
 
-                  // Kaydet Butonu
+                  
                   ElevatedButton(
                     onPressed: () async {
                       setState(() => _yukleniyor = true);
@@ -494,7 +494,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                     padding: const EdgeInsets.all(14),
                     child: Row(
                       children: [
-                        // İkon
+                        
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -508,7 +508,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                           ),
                         ),
                         const SizedBox(width: 14),
-                        // İçerik
+                        
                         Expanded(
                           child: Column(
                             crossAxisAlignment:
@@ -567,7 +567,7 @@ class _HijyenTakipPaneliDurumu extends State<HijyenTakipPaneli>
                             ],
                           ),
                         ),
-                        // Menü Butonu
+                        
                         PopupMenuButton<String>(
                           onSelected: (deger) {
                             if (deger == 'duzenle') {

@@ -4,9 +4,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Çıkış yapıldığında gidilecek giriş paneli
+
 import '../../kimlik_dogrulama/ekranlar/kayit_paneli.dart';
-// Storage servisini içe aktarıyoruz
+
 import 'package:pati_ailesi/cekirdek/servisler/storage_servisi.dart';
 
 class KullaniciProfilPaneli extends StatefulWidget {
@@ -34,12 +34,12 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
   String? _profilFotoUrl;
   String? _aileId;
 
-  // Genel İstatistik Değişkenleri
+  
   int _kullaniciAktiviteSayisi = 0;
   int _toplamAileAktiviteSayisi = 0;
 
-  // Kategori Bazlı İstatistik Haritaları (Maps)
-  // Hangi kategoride toplam kaç görev var ve kullanıcı kaçını yapmış tutacağız.
+  
+  
   Map<String, int> _aileKategoriSayilari = {};
   Map<String, int> _kullaniciKategoriSayilari = {};
 
@@ -101,7 +101,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
 
         _animasyonKontrol.forward(from: 0.0);
 
-        // Aile ID'si çekildikten sonra detaylı istatistikleri getir
+        
         await _istatistikleriGetir(mevcutKullanici.id, _aileId);
       }
     } catch (e) {
@@ -116,8 +116,8 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
     }
   }
 
-  // --- YENİLENEN İSTATİSTİK GETİRME FONKSİYONU ---
-  // Artık sadece sayıyı değil, kategori isimlerini de alıp işliyoruz
+  
+  
   Future<void> _istatistikleriGetir(String kullaniciId, String? aileId) async {
     if (aileId == null) {
       if (mounted) setState(() => _istatistikYukleniyor = false);
@@ -125,7 +125,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
     }
 
     try {
-      // Aileye ait TÜM aktiviteleri çekiyoruz (kullanıcı ve aktivite tipi bilgisiyle)
+      
       final cevap = await _supabase
           .from('aktivite_gunlugu')
           .select('id, kullanici_id, aktivite_tipi')
@@ -136,7 +136,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
       int toplam = veriler.length;
       int kullaniciToplam = 0;
 
-      // Geçici map'ler oluşturup döngü içinde dolduracağız
+      
       Map<String, int> aileKat = {};
       Map<String, int> kulKat = {};
 
@@ -144,10 +144,10 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
         String kategori = satir['aktivite_tipi'] ?? 'Diğer';
         String kId = satir['kullanici_id'].toString();
 
-        // Aile geneli için bu kategorinin sayısını 1 artır
+        
         aileKat[kategori] = (aileKat[kategori] ?? 0) + 1;
 
-        // Eğer bu aktiviteyi giriş yapan kullanıcı yaptıysa
+        
         if (kId == kullaniciId) {
           kullaniciToplam++;
           kulKat[kategori] = (kulKat[kategori] ?? 0) + 1;
@@ -746,7 +746,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
     );
   }
 
-  // --- GENEL İSTATİSTİK (Önceki Kart) ---
+  
   Widget _istatistikKartiOlustur() {
     if (_istatistikYukleniyor) {
       return Container(
@@ -880,11 +880,11 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
     );
   }
 
-  // --- YENİ EKLENEN: KATEGORİ BAZLI İSTATİSTİKLER ---
-  // Kategorileri yatay kaydırılabilir küçük kartlar olarak listeler
+  
+  
   Widget _kategoriIstatistikleriOlustur() {
     if (_istatistikYukleniyor || _toplamAileAktiviteSayisi == 0) {
-      return const SizedBox.shrink(); // Veri yoksa veya yükleniyorsa bu alanı gizle
+      return const SizedBox.shrink(); 
     }
 
     return Column(
@@ -902,7 +902,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
           ),
         ),
         SizedBox(
-          height: 130, // Kartların yüksekliği
+          height: 130, 
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -912,7 +912,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
               int aileKategoriToplami = _aileKategoriSayilari[kategoriAdi]!;
               int kullaniciKategoriToplami = _kullaniciKategoriSayilari[kategoriAdi] ?? 0;
 
-              // 0'a bölme hatasını önlemek için kontrol yapıyoruz
+              
               double oran = aileKategoriToplami > 0
                   ? kullaniciKategoriToplami / aileKategoriToplami
                   : 0.0;
@@ -921,15 +921,15 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
             },
           ),
         ),
-        const SizedBox(height: 24), // Alt elemanlarla boşluk
+        const SizedBox(height: 24), 
       ],
     );
   }
 
-  // Her bir kategorinin dairesel grafiğini barındıran küçük kart
+  
   Widget _kategoriKarti(String kategori, int kullaniciYapti, int toplamYapildi, double oran) {
     return Container(
-      width: 120, // Kart genişliği
+      width: 120, 
       margin: const EdgeInsets.only(right: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -946,7 +946,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Küçük dairesel grafik
+          
           SizedBox(
             width: 45,
             height: 45,
@@ -962,13 +962,13 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
                   value: oran,
                   strokeWidth: 5,
                   backgroundColor: Colors.transparent,
-                  valueColor: AlwaysStoppedAnimation<Color>(vurguRengi), // Sarı renk
+                  valueColor: AlwaysStoppedAnimation<Color>(vurguRengi), 
                 ),
                 Center(
                   child: Text(
                     '%${(oran * 100).toInt()}',
                     style: GoogleFonts.poppins(
-                      color: anaMavi, // Lacivert yazı
+                      color: anaMavi, 
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -978,7 +978,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
             ),
           ),
           const SizedBox(height: 12),
-          // Kategori ismi
+          
           Text(
             kategori,
             maxLines: 1,
@@ -990,7 +990,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
             ),
           ),
           const SizedBox(height: 4),
-          // Yapılan görev sayısı detayı (örn: 2/5 görev)
+          
           Text(
             '$kullaniciYapti / $toplamYapildi',
             style: GoogleFonts.poppins(
@@ -1052,7 +1052,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
             physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                // Profil Fotoğrafı
+                
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: [
@@ -1134,7 +1134,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
                 ),
                 const SizedBox(height: 16),
 
-                // İsim
+                
                 Text(
                   _kullaniciAdi,
                   style: GoogleFonts.poppins(
@@ -1163,7 +1163,7 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
                 ),
                 const SizedBox(height: 32),
 
-                // Ayarlar Kartı
+                
                 Container(
                   decoration: BoxDecoration(
                     color: kartBeyazi,
@@ -1208,14 +1208,14 @@ class _KullaniciProfilPaneliDurumu extends State<KullaniciProfilPaneli>
                   ),
                 ),
 
-                // --- İSTATİSTİK BÖLÜMÜ ---
-                // Genel özet kartı
+                
+                
                 _istatistikKartiOlustur(),
 
-                // Kategorilere göre yatay liste dağılımı
+                
                 _kategoriIstatistikleriOlustur(),
 
-                // Çıkış Butonu
+                
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(

@@ -21,7 +21,7 @@ class _AilePaneliState extends State<AilePaneli>
   final _supabase = Supabase.instance.client;
   final VeriServisi _veriServisi = VeriServisi();
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -178,7 +178,7 @@ class _AilePaneliState extends State<AilePaneli>
       final durum = hayvan['durum'] ?? 'Aktif';
       final bool ayrilan = durum == 'Vefat' || durum == 'Kayıp';
 
-      // ⭐ DOĞUM GÜNÜ KONTROLÜ - TÜM HAYVANLAR İÇİN
+      
       if (hayvan['dogum_tarihi'] != null) {
         try {
           final dogumTarihi = DateTime.parse(hayvan['dogum_tarihi']);
@@ -195,7 +195,7 @@ class _AilePaneliState extends State<AilePaneli>
         }
       }
 
-      // ⭐ ANMA KONTROLÜ - SADECE VEFAT EDENLER İÇİN
+      
       if (durum == 'Vefat' && hayvan['ayrilis_tarihi'] != null) {
         try {
           final vefatTarihi = DateTime.parse(hayvan['ayrilis_tarihi']);
@@ -212,7 +212,7 @@ class _AilePaneliState extends State<AilePaneli>
       }
     }
 
-    // Konfeti patlat (sadece doğum günü olan aktif hayvan varsa)
+    
     bool aktifDogumGunuVar = _bugunkuDogumGunleri.any((h) => h['ayrildi_mi'] == false);
     if (aktifDogumGunuVar) {
       _confettiKontrolcusu.stop();
@@ -393,7 +393,7 @@ class _AilePaneliState extends State<AilePaneli>
     }
   }
 
-  // ⭐ YENİ: Aile Adı Değiştirme Fonksiyonları
+  
   void _aileAdiDegistirmeDialogGoster() {
     final TextEditingController adKontrolcusu = TextEditingController(text: _aileAdi);
 
@@ -839,7 +839,7 @@ class _AilePaneliState extends State<AilePaneli>
     );
   }
 
-  // ⭐ YENİ: Ölen/Kaybolan Hayvanlar için Doğum Günü Kartı
+  
   Widget _dogumGunuKarti(Map<String, dynamic> hayvan) {
     final int yas = hayvan['kutlanan_yas'];
     final String ad = hayvan['ad'] ?? 'Dostumuz';
@@ -847,7 +847,7 @@ class _AilePaneliState extends State<AilePaneli>
     final String durum = hayvan['durum'] ?? 'Aktif';
     final bool vefatMi = durum == 'Vefat';
 
-    // Kart rengi ve mesajı
+    
     String mesaj;
     Color renk1, renk2;
 
@@ -916,7 +916,7 @@ class _AilePaneliState extends State<AilePaneli>
     );
   }
 
-  // ⭐ YENİ: Anma Kartı (Ölüm Yıldönümü)
+  
   Widget _anmaKarti(Map<String, dynamic> hayvan) {
     final int yil = hayvan['anma_yili'];
     final String ad = hayvan['ad'] ?? 'Dostumuz';
@@ -1021,9 +1021,9 @@ class _AilePaneliState extends State<AilePaneli>
                 backgroundColor: arkaPlan,
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
-                  // ⭐ DEĞİŞİKLİK: AppBar başlığı düzenlendi, sadece kurucu ise ikon gösterilecek.
+                  
                   title: Row(
-                    mainAxisSize: MainAxisSize.min, // Ortalamayı bozmamak için min
+                    mainAxisSize: MainAxisSize.min, 
                     children: [
                       Text(
                         _aileAdi,
@@ -1033,7 +1033,7 @@ class _AilePaneliState extends State<AilePaneli>
                           fontSize: 20,
                         ),
                       ),
-                      // Sadece giriş yapan kullanıcı kurucu ise değiştirme ikonu çıksın
+                      
                       if (guncelKullaniciId == _kurucuId) ...[
                         const SizedBox(width: 8),
                         GestureDetector(
@@ -1046,7 +1046,7 @@ class _AilePaneliState extends State<AilePaneli>
                             ),
                             child: Icon(
                               Icons.edit,
-                              color: vurguRengi, // Sarı ikon
+                              color: vurguRengi, 
                               size: 18,
                             ),
                           ),
@@ -1087,22 +1087,22 @@ class _AilePaneliState extends State<AilePaneli>
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          // ⭐ DOĞUM GÜNLERİ (Tüm hayvanlar için)
+                          
                           if (_bugunkuDogumGunleri.isNotEmpty) ...[
                             ..._bugunkuDogumGunleri.map((h) => _dogumGunuKarti(h)).toList(),
                             const SizedBox(height: 8),
                           ],
 
-                          // ⭐ ANMA GÜNLERİ (Sadece vefat edenler için)
+                          
                           if (_bugunkuAnmalar.isNotEmpty) ...[
                             ..._bugunkuAnmalar.map((h) => _anmaKarti(h)).toList(),
                             const SizedBox(height: 16),
                           ],
 
-                          // Aktif Hayvanlar
+                          
                           ...aktifHayvanlar.map((h) => _hayvanKarti(h)).toList(),
 
-                          // Ayrılan Hayvanlar (Ölen/Kaybolan)
+                          
                           if (ayrilanHayvanlar.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             _ayrilanlarBasligi(),
@@ -1144,7 +1144,7 @@ class _AilePaneliState extends State<AilePaneli>
                 ),
               ),
 
-              // Konfeti
+              
               Align(
                 alignment: Alignment.topCenter,
                 child: ConfettiWidget(

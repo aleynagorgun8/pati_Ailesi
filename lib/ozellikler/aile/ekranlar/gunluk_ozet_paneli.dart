@@ -15,7 +15,7 @@ class _AileAkisPaneliState extends State<AileAkisPaneli>
     with SingleTickerProviderStateMixin {
   final _supabase = Supabase.instance.client;
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -566,13 +566,13 @@ class _AileAkisPaneliState extends State<AileAkisPaneli>
     String hayvanAdi = aktivite['evcil_hayvanlar']?['ad'] ?? 'Pati';
     String yapan = aktivite['kullanicilar']?['ad_soyad'] ?? 'Biri';
 
-    // Veritabanındaki detay verilerini çekiyoruz
+    
     String islemDetayi = aktivite['islem_detayi']?.toString() ?? '';
 
-    // ⭐ DÜZELTME: Eski kayıtlardan gelen karmaşık UUID kodlarını gizleme kontrolü
+    
     bool hashMi = RegExp(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$').hasMatch(islemDetayi);
     if (hashMi) {
-      islemDetayi = ''; // Eğer hash ise boşaltıyoruz ki aşağıda varsayılan düzgün yazı atansın
+      islemDetayi = ''; 
     }
 
     var miktarRaw = aktivite['miktar_numerik'];
@@ -587,7 +587,7 @@ class _AileAkisPaneliState extends State<AileAkisPaneli>
 
     String detay = '';
 
-    // Aktivite Tipine Göre Detay Oluşturma Mantığı
+    
     switch (tip) {
       case 'Beslenme':
         if (miktar.isNotEmpty) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart'; // Tarih formatlamaları için eklendi
+import 'package:intl/intl.dart'; 
 
 import '../../beslenme/ekranlar/beslenme_takip_paneli.dart';
 import '../../su/ekranlar/su_takip_paneli.dart';
@@ -26,7 +26,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
   final _supabase = Supabase.instance.client;
   final StorageServisi _storageServisi = StorageServisi();
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -86,7 +86,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
     }
   }
 
-  // --- ANI KÖŞESİ İŞLEMLERİ (YENİ EKLENDİ) ---
+  
   Future<void> _ayrilisDurumunuGuncelle(String yeniDurum, DateTime tarih) async {
     try {
       await _supabase.from('evcil_hayvanlar').update({
@@ -190,7 +190,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
       },
     );
   }
-  // ------------------------------------------
+  
 
   Future<void> _profilFotografiDegistir(ImageSource kaynak) async {
     try {
@@ -726,7 +726,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
     );
   }
 
-  // --- ANI KÖŞESİ WIDGET'I (YENİ EKLENDİ) ---
+  
   Widget _aniKosesiTasarimi() {
     String durum = _hayvanBilgisi['durum'] ?? 'Aktif';
     String? tarihString = _hayvanBilgisi['ayrilis_tarihi'];
@@ -803,7 +803,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
       ),
     );
   }
-  // -----------------------------------------
+  
 
   @override
   Widget build(BuildContext context) {
@@ -817,7 +817,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
 
     bool vefatMi = _hayvanBilgisi['durum'] == 'Vefat';
 
-    // Fotoğraf tasarımı siyah beyaz filtresi
+    
     Widget profilFotografi = CircleAvatar(
       radius: 70,
       backgroundColor: kartBeyazi,
@@ -891,7 +891,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Profil Fotoğrafı
+                  
                   Stack(
                     alignment: Alignment.bottomRight,
                     children: [
@@ -906,7 +906,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
                             ),
                           ],
                         ),
-                        child: profilFotografi, // Yeni filtreli fotoğrafımız burada kullanılıyor
+                        child: profilFotografi, 
                       ),
                       if (_fotoYukleniyor)
                         Container(
@@ -950,7 +950,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
                   ),
                   const SizedBox(height: 20),
 
-                  // İsim ve Rozet
+                  
                   Column(
                     children: [
                       Text(
@@ -988,7 +988,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
                   ),
                   const SizedBox(height: 24),
 
-                  // Bilgi Kartı
+                  
                   Container(
                     decoration: BoxDecoration(
                       color: kartBeyazi,
@@ -1042,7 +1042,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
                   ),
                   const SizedBox(height: 28),
 
-                  // Kategori Grid
+                  
                   GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -1085,7 +1085,7 @@ class _HayvanProfilPaneliDurumu extends State<HayvanProfilPaneli>
                     ],
                   ),
 
-                  // ANI KÖŞESİ EKLENTİSİ BURADA
+                  
                   _aniKosesiTasarimi(),
 
                   const SizedBox(height: 16),

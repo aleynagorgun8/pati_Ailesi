@@ -142,7 +142,7 @@ class _AileSohbetPaneliDurumu extends State<AileSohbetPaneli> {
     final String kisaAd = gonderenAdi.isNotEmpty ? gonderenAdi[0].toUpperCase() : 'U';
     final String? profilFotoUrl = gonderenBilgisi['profil_foto_url'];
 
-    // Okundu bilgisini güvenli tetikleme
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _mesajiOkunduOlarakIsaretle(mesaj);
     });

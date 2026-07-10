@@ -26,7 +26,7 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
   bool _okunmamisMesajVar = false;
 
   StreamSubscription? _mesajAboneligi;
-  Timer? _debounceTimer; // Bildirim yanıp sönmesini engellemek için zamanlayıcı
+  Timer? _debounceTimer; 
 
   final List<GlobalKey<NavigatorState>> _navigatorAnahtarlari = [
     GlobalKey<NavigatorState>(),
@@ -77,30 +77,30 @@ class _AnaNavigasyonPaneliDurumu extends State<AnaNavigasyonPaneli> {
         .eq('aile_id', _kullaniciAileId!)
         .listen((mesajlar) {
 
-      // 1. Sohbet ekranındaysan bildirimleri zaten gösterme
+      
       if (_seciliSayfaIndeksi == 1) {
         setState(() => _okunmamisMesajVar = false);
         return;
       }
 
-      // 2. Kendi okumadığın mesajları bul
+      
       bool yeniOkunmamisVar = mesajlar.any((mesaj) {
         final List okuyanlar = List.from(mesaj['okuyanlar'] ?? []);
         return mesaj['gonderen_id'] != _gecerliKullaniciId && !okuyanlar.contains(_gecerliKullaniciId);
       });
 
-      // 3. EĞER YENİ BİR MESAJ VARSA VE ZATEN BİLDİRİMİN VARSA, ONU SİLME!
-      // Sadece 'yeniOkunmamisVar' true ise ve daha önce false ise bildirimi yak.
+      
+      
       if (yeniOkunmamisVar) {
         setState(() => _okunmamisMesajVar = true);
       }
-      // NOT: Burada 'else' koymuyoruz!
-      // Çünkü 'yeniOkunmamisVar' false olsa bile biz 'true'yu korumak istiyoruz
-      // (Ta ki kullanıcı sohbet ekranına girene kadar).
+      
+      
+      
     });
   }
   void _sayfaDegistir(int indeks) {
-    // SOHBETE TIKLANDIĞI AN BİLDİRİMİ SIFIRLA
+    
     if (indeks == 1) {
       setState(() => _okunmamisMesajVar = false);
     }

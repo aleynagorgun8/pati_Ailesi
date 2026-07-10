@@ -17,7 +17,7 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
     with SingleTickerProviderStateMixin {
   final _supabase = Supabase.instance.client;
 
-  // renk paleti
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -73,7 +73,7 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
           .toIso8601String();
       final bugunSifirlanmis = DateTime(bugun.year, bugun.month, bugun.day);
 
-      // ⭐ DÜZELTİLDİ: aile_id kaldırıldı, sadece hayvan_id ile sorgu
+      
       final saglikVerileri = await _supabase
           .from('saglik_kayitlari')
           .select()
@@ -365,7 +365,7 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
                     ),
                     const SizedBox(height: 16),
 
-                    // Tip Seçimi
+                    
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.grey.shade50,
@@ -788,7 +788,7 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
                         Navigator.pop(context);
 
                         try {
-                          // ⭐ DÜZELTİLDİ: aile_id kaldırıldı
+                          
                           final veri = {
                             'hayvan_id': widget.hayvanVerisi['id'],
                             'kayit_tipi': seciliTip,
@@ -1171,10 +1171,10 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
           padding: const EdgeInsets.all(16.0),
           physics: const BouncingScrollPhysics(),
           children: [
-            // Takvim Modülü
+            
             _takvimModulu(),
 
-            // Aktif İlaçlar
+            
             if (_aktifIlaclar.isNotEmpty) ...[
               Row(
                 children: [
@@ -1424,7 +1424,7 @@ class _SaglikTakipPaneliDurumu extends State<SaglikTakipPaneli>
               const SizedBox(height: 8),
             ],
 
-            // Geçmiş Kayıtlar
+            
             Row(
               children: [
                 Container(

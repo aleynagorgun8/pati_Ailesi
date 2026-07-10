@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../aile/ekranlar/aile_secim_paneli.dart';
-// Eğer bu alt satırda kırmızı hata çıkarsa, sonundaki ismin üzerine tıklayıp Alt + Enter yapabilirsin
+
 import 'package:pati_ailesi/cekirdek/navigasyon/ana_navigasyon_paneli.dart';class KimlikDogrulamaPaneli extends StatefulWidget {
   const KimlikDogrulamaPaneli({super.key});
 

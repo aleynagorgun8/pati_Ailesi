@@ -25,7 +25,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
   bool _kronikHastalikVarMi = false;
   bool _kaydediliyor = false;
 
-  // Modern renk paleti 💙💛
+  
   final Color anaMavi = const Color(0xFF1A237E);
   final Color anaMaviLight = const Color(0xFF283593);
   final Color vurguRengi = const Color(0xFFFFC107);
@@ -244,7 +244,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Profil Fotoğrafı
+                  
                   Center(
                     child: GestureDetector(
                       onTap: () {
@@ -304,7 +304,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 20),
 
-                  // Başlık
+                  
                   Text(
                     'Pati Bilgileri',
                     style: GoogleFonts.poppins(
@@ -323,7 +323,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 20),
 
-                  // İsim Alanı
+                  
                   _modernTextField(
                     controller: _adKontrolcusu,
                     label: 'Pati Adı',
@@ -333,7 +333,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 16),
 
-                  // Tür ve Cinsiyet
+                  
                   Row(
                     children: [
                       Expanded(
@@ -363,7 +363,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 16),
 
-                  // Irk
+                  
                   _modernTextField(
                     controller: _irkKontrolcusu,
                     label: 'Irkı',
@@ -372,7 +372,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 16),
 
-                  // Doğum Tarihi
+                  
                   InkWell(
                     onTap: () => _tarihSec(context),
                     borderRadius: BorderRadius.circular(12),
@@ -447,7 +447,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 16),
 
-                  // Mikroçip
+                  
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
@@ -497,7 +497,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
 
                   const SizedBox(height: 12),
 
-                  // Kronik Hastalık
+                  
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
@@ -534,7 +534,7 @@ class _HayvanEklePaneliState extends State<HayvanEklePaneli>
                   ),
                   const SizedBox(height: 32),
 
-                  // Kaydet Butonu
+                  
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
